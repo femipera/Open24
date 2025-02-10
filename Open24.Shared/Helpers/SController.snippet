@@ -1,0 +1,98 @@
+﻿<CodeSnippet xmlns="http://schemas.microsoft.com/VisualStudio/2005/CodeSnippet">
+    <Header>
+        <Title>ProductController</Title>
+        <Shortcut>fjfctrl</Shortcut>
+        <Description>Snippet to create a Controller with CRUD operations</Description>
+        <Author>FernandoJ</Author>
+    </Header>
+    <Snippet>
+        <Declarations>
+          <Literal>
+            <ID>EntityUp</ID>
+            <ToolTip>Enter the Enity class name</ToolTip>
+            <Default>EntityName</Default>
+          </Literal>
+          <Literal>
+            <ID>entity</ID>
+            <ToolTip>Enter the enity class name</ToolTip>
+            <Default>EntityName</Default>
+          </Literal>     
+        </Declarations>
+        <Code Language="csharp">
+            <![CDATA[
+[Route("api/$entity$")]
+public class $EntityUp$Controller : BaseController
+{
+    #region Properties
+    private readonly I$EntityUp$Service _$entity$Service;
+
+    public $EntityUp$Controller(I$EntityUp$Service $entity$Service)
+    {
+        _$entity$Service = $entity$Service;
+    }
+    #endregion
+
+    #region Create
+    [HttpPost]
+    public Task<IActionResult> Create($EntityUp$Request $entity$Request) =>
+        ExecuteAsync(async () =>
+        {
+            var entity = await _$entity$Service.CreateAsync($entity$Request, "admin");
+            return CreateSuccessResponse(entity, StatusCodes.Status201Created);
+        });
+    #endregion
+
+    #region GetAll
+    [HttpGet]
+    public Task<IActionResult> GetAll(int count = -1, int skip = -1, string search = "") =>
+        ExecuteAsync(async () =>
+        {
+            var entities = await _$entity$Service.GetAllAsync(count, skip, search);
+            return CreateSuccessResponse(entities, StatusCodes.Status200OK);
+        });
+    #endregion
+
+    #region GetById
+    [HttpGet("{id}")]
+    public Task<IActionResult> GetById(Guid id) =>
+        ExecuteAsync(async () =>
+        {
+            var entity = await _$entity$Service.GetByIdAsync(id);
+            if (entity == null)
+                return CreateErrorResponse<$EntityUp$Response>(StatusCodes.Status404NotFound, ResponseMessages.NotFound);
+
+            return CreateSuccessResponse(entity, StatusCodes.Status200OK);
+        });
+    #endregion
+
+    #region Update
+    [HttpPut]
+    public Task<IActionResult> Update($EntityUp$Request $entity$Request) =>
+        ExecuteAsync(async () =>
+        {
+            var entity = await _$entity$Service.UpdateAsync($entity$Request, "");
+            if (entity == null)
+                return CreateErrorResponse<$EntityUp$Response>(StatusCodes.Status404NotFound, ResponseMessages.UpdateFailed);
+
+            return CreateSuccessResponse(entity, StatusCodes.Status200OK);
+        });
+    #endregion
+
+    #region Delete
+    [HttpDelete("{id}")]
+    public Task<IActionResult> Delete(Guid id) =>
+        ExecuteAsync(async () =>
+        {
+            var entity = await _$entity$Service.GetByIdAsync(id);
+            if (entity == null)
+                return CreateErrorResponse<$EntityUp$Response>(StatusCodes.Status404NotFound, ResponseMessages.NotFound);
+
+            await _$entity$Service.DeleteAsync(id);
+            return CreateSuccessResponse<$EntityUp$Response>(null, StatusCodes.Status204NoContent);
+        });
+    #endregion
+}
+            ]]>
+        </Code>
+    </Snippet>
+</CodeSnippet>
