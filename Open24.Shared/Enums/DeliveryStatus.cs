@@ -20,5 +20,8 @@ public enum DeliveryStatus
     Canceled = 5,
 
     [Description("Devolvido")]
-    Returned = 6
+    Returned = 6,
+
+    [Description("Aguardando retirada")]
+    WaitingForWithdrawal = 7
 }
