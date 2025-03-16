@@ -21,4 +21,7 @@ public enum DeliveryStatus
 
     [Description("Devolvido")]
     Returned = 6
+
+    [Description("Devolvido")]
+    Error = 7
 }
