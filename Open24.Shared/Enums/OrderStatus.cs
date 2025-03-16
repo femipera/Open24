@@ -26,5 +26,5 @@ public enum OrderStatus
     Failed = 7
 
     [Description("Aguardando")]
-    Whait = 8
+    waiting = 8
 }
